@@ -1,6 +1,5 @@
-export type Task = {
-  id?: number;
+export interface UpdateTask {
   title: string;
-  description?: string;
+  description?: string | null;
   status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED';
-};
+}

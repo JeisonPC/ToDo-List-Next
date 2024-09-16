@@ -1,13 +1,14 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { DeleteTask } from '@/types/task';
 
 const prisma = new PrismaClient();
 
 export async function DELETE(req: NextRequest) {
-  const { id } = await req.json();
+  const { taskId } = await req.json();
 
   // Validamos si se proporciona un ID
-  if (!id) {
+  if (!taskId) {
     return NextResponse.json(
       { error: "El ID de la tarea es requerido para eliminarla." },
       { status: 400 }
@@ -15,8 +16,8 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    const deletedTask = await prisma.task.delete({
-      where: { id: Number(id) },
+    const deletedTask: DeleteTask = await prisma.task.delete({
+      where: { id: taskId },
     });
 
     return NextResponse.json(

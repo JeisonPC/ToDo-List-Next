@@ -1,13 +1,14 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { UpdateTaskStatus } from '@/types/task';
 
 const prisma = new PrismaClient();
 
 export async function PATCH(req: NextRequest) {
 
-  const { id, status } = await req.json();
+  const { idTask, status } = await req.json();
 
-  if (!id || !status) {
+  if (!idTask || !status) {
     return NextResponse.json(
       { error: "El ID y el estado son requeridos para actualizar la tarea." },
       { status: 400 }
@@ -15,10 +16,10 @@ export async function PATCH(req: NextRequest) {
   }
 
   try {
-    const updatedTask = await prisma.task.update({
-      where: { id: Number(id) },
+    const updatedTask: UpdateTaskStatus = await prisma.task.update({
+      where: idTask,
       data: {
-        status: status.toUpperCase(),  // Se asegura de que el status esté en mayúsculas
+        status: status.toUpperCase(),
       },
     });
 

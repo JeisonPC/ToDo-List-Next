@@ -1,12 +1,13 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
+import { UpdateTask } from "@/types/task";
 
 const prisma = new PrismaClient();
 
 export async function PUT(req: NextRequest) {
-  const { id, title, description, status } = await req.json();
+  const { taskId, title, description, status } = await req.json();
 
-  if (!id || !title || !description || !status) {
+  if (!taskId || !title || !description || !status) {
     return NextResponse.json(
       {
         error:
@@ -16,14 +17,16 @@ export async function PUT(req: NextRequest) {
     );
   }
 
+  const updateTaskData: UpdateTask = {
+    title: title,
+    description: description,
+    status: status.toUpperCase(),
+  };
+
   try {
     const updatedTask = await prisma.task.update({
-      where: { id: Number(id) },
-      data: {
-        title: title,
-        description: description,
-        status: status.toUpperCase(),
-      },
+      where: { id: taskId },
+      data: updateTaskData
     });
 
     return NextResponse.json(
