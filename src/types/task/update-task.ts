@@ -1,2 +1,2 @@
-import { CreateTask } from './create-task';
-export interface UpdateTask extends Partial<CreateTask> {}
+import { Task } from './task';
+export interface UpdateTask extends Partial<Task> {}

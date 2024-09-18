@@ -1,8 +1,6 @@
 import { create } from "zustand";
-import { TaskState } from "@/types/task";
-import { Task } from "@/types/task";
-// import { CreateTask } from "@/types/task";
-import { tasksFromApi } from "@/services/tasks";
+import { CreateTask, TaskState, UpdateTask } from "@/types/task";
+import { tasksFromApi, taskCreateApi, taskUpdateApi } from "@/services/tasks";
 
 export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
@@ -14,22 +12,20 @@ export const useTaskStore = create<TaskState>((set) => ({
       console.error("Error al listar las tarea:", error);
     }
   },
-
-  // Crear nueva tarea
-  createTask: (newTask: Task) =>
-    set((state) => ({
-      tasks: [...state.tasks, newTask],
-    })),
-
-  // Actualizar una tarea existente
-  updateTask: (id: number, updatedTask: Partial<Task>) =>
-    set((state) => ({
-      tasks: state.tasks.map((task) =>
-        task.id === id ? { ...task, ...updatedTask } : task
-      ),
-    })),
-
-  // Eliminar tarea por id
+  createTask: async (newTask: CreateTask) => {
+    const task = await taskCreateApi(newTask);
+    return set((state) => ({
+      ...state,
+      tasks: [...state.tasks, task],
+    }));
+  },
+  updateTask: async (updatedTask: UpdateTask) => {
+    const task = await taskUpdateApi(updatedTask);
+    return set((state) => ({
+      ...state,
+      tasks: state.tasks.map((p) => (p.id === task.id ? task : p)),
+    }));
+  },
   deleteTask: (id: number) =>
     set((state) => ({
       tasks: state.tasks.filter((task) => task.id !== id),
