@@ -30,7 +30,6 @@ export default function SlideFormOrganism() {
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-    console.log("event.target.value", event.target.value);
   }
 
   const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -59,9 +58,6 @@ export default function SlideFormOrganism() {
     };
 
 
-
-    console.log("newTask", newTask);
-
     if (!newTask.title || !newTask.description || !newTask.status) {
       throw new Error("Todos los campos son requeridos");
     }
@@ -72,7 +68,6 @@ export default function SlideFormOrganism() {
     } catch (error) {
       console.error("Error al crear la tarea:", error);
     } finally {
-      console.log("Cerrando formulario");
       setIsOpen(false);
     }
   };

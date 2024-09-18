@@ -1,8 +1,7 @@
 import { Task } from "@/types/task";
 import { UpdateTask } from "@/types/task/update-task";
 
-export async function taskUpdateApi(updatedTask: UpdateTask): Promise<Task> {
-  const taskId = updatedTask.id;
+export async function taskUpdateApi(taskId: number, updatedTask: UpdateTask): Promise<Task> {
   const response = await fetch(`/api/tasks/update-task`, {
     method: 'PUT',
     headers: {

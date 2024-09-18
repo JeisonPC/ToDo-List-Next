@@ -28,16 +28,13 @@ export default function TaskOrganism() {
     return <LoadingSkeleton />;
   }
 
-
-  console.log("tasks", tasks);
-
   return (
     <Suspense fallback={<LoadingSkeleton />}>
       <ul className="gap-4 flex flex-col">
         {tasks?.map((task) => (
           <li
             key={task?.id}
-            className={`p-4 flex justify-between items-center	 ${
+            className={`p-4 flex justify-between items-center relative	 ${
               task?.status === "COMPLETED"
                 ? "bg-emerald-50"
                 : task?.status === "IN_PROGRESS"

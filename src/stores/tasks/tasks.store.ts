@@ -1,8 +1,6 @@
 import { create } from "zustand";
 import { CreateTask, TaskState, UpdateTask } from "@/types/task";
-import { tasksFromApi, taskCreateApi, taskUpdateApi } from "@/services/tasks";
-import { taskDeleteApi } from "@/services/tasks/task-delete.service";
-
+import { tasksFromApi, taskCreateApi, taskUpdateApi, taskDeleteApi } from "@/services/tasks";
 export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
   fetchTasks: async () => {
@@ -20,8 +18,8 @@ export const useTaskStore = create<TaskState>((set) => ({
       tasks: [...state.tasks, task],
     }));
   },
-  updateTask: async (updatedTask: UpdateTask) => {
-    const task = await taskUpdateApi(updatedTask);
+  updateTask: async (taskId: number, updatedTask: UpdateTask) => {
+    const task = await taskUpdateApi(taskId, updatedTask);
     return set((state) => ({
       ...state,
       tasks: state.tasks.map((p) => (p.id === task.id ? task : p)),

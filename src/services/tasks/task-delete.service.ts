@@ -13,7 +13,6 @@ export async function taskDeleteApi(taskId: number): Promise<{
   if (!response.ok) throw new Error('Error eliminando la tarea');
 
   const data = await response.json();
-  console.log("Respuesta de la API:", data);
 
   return data.deletedTask;
 }
