@@ -1,11 +1,11 @@
-import { ConfirmDeleteModalProps } from "@/types/molecules/Confirm-delete-modal-molecule";
+import { ConfirmDeleteModalProps } from "@/types/molecules/confirm-delete-modal-molecule";
 
 
-function ConfirmDeleteModal({ isOpen, onClose, onConfirm }: ConfirmDeleteModalProps) {
-  if (!isOpen) return null;
+function ConfirmDeleteModal({ isModalDeleteOpen, onClose, onConfirm }: ConfirmDeleteModalProps) {
+  if (!isModalDeleteOpen) return null;
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+    <div className="z-20 fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white p-6 rounded-lg shadow-lg w-80">
         <h2 className="text-lg font-semibold">Confirmación</h2>
         <p className="mt-2">¿Estás seguro de que deseas eliminar esta tarea?</p>

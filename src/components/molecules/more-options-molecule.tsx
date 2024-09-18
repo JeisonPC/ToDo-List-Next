@@ -4,12 +4,25 @@ import ButtonMoreAtom from "../atoms/button-more-atom";
 import ConfirmDeleteModal from "./confirm-delete-modal-molecule";
 import { MoreOptionsMoleculeProps } from "@/types/molecules/more-options-molecule";
 import { useTaskStore } from "@/stores/tasks/tasks.store";
+import ButtonUpdateAtom from "../atoms/button-update-atom";
+import ConfirmUpdateModal from "./confirm-update-modal-molecule";
 
-export default function MoreOptionsMolecule( { taskId } : MoreOptionsMoleculeProps) {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default function MoreOptionsMolecule({
+  taskId,
+}: MoreOptionsMoleculeProps) {
+  const handleMoreClick = () => {
+    setIsOpenButtonMoreState(!isOpenButtonMoreState);
+  };
+
+  const [isOpenButtonMoreState, setIsOpenButtonMoreState] = useState(false);
+  const [isModalDeleteOpenState, setIsModalDeleteOpenState] = useState(false);
+  const [isModalUpdateOpenState, setIsModalUpdateOpenState] = useState(false);
 
   const deleteTaskInMoreOptions = useTaskStore((state) => state.deleteTask);
+
+  const handleDeleteClick = () => {
+    setIsModalDeleteOpenState(true);
+  };
 
   const handleDelete = async () => {
     try {
@@ -19,45 +32,57 @@ export default function MoreOptionsMolecule( { taskId } : MoreOptionsMoleculePro
     }
   };
 
-  const handleMoreClick = () => {
-    setIsOpen(!isOpen);
+  const handleCloseModalDelete = () => {
+    setIsModalDeleteOpenState(false);
   };
 
-  const handleDeleteClick = () => {
-    console.log(taskId);
-    setIsModalOpen(true); // Abrir el modal cuando se hace clic en eliminar
+  const handleUpdateClick = () => {
+    setIsModalUpdateOpenState(true);
   };
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false); // Cerrar el modal sin eliminar
+  const handleCloseModalUpdate = () => {
+    setIsModalUpdateOpenState(false);
   };
 
   return (
     <>
       <div
-        className={`bg-white p-2 rounded-full flex flex-col ${
-          isOpen ? "rounded-b-none relative" : ""
+        className={`bg-white p-2 shadow-md relative rounded-full flex flex-col ${
+          isOpenButtonMoreState ? "rounded-b-none" : ""
         }`}
       >
         <ButtonMoreAtom onClickMore={handleMoreClick} />
 
-          {isOpen ? (
+        {isOpenButtonMoreState ? (
+          <>
             <div
-            className={`absolute top-full right-0 bg-white p-2 rounded-lg rounded-b-full transition-transform duration-100 ${
-              isOpen
-                ? "transform translate-y-0 opacity-100"
-                : "transform translate-y-[-10px] opacity-0"
-            }`}
-          >
-            <ButtonDeleteAtom taskId={taskId} onClickDelete={handleDeleteClick} />
+              className={`absolute w-full top-full z-10 right-0 bg-white pt-1 p-2 rounded-lg rounded-b-full transition-transform duration-100 ${
+                isOpenButtonMoreState
+                  ? "transform translate-y-0 opacity-100"
+                  : "transform translate-y-[-10px] opacity-0"
+              }`}
+            >
+              <ButtonDeleteAtom
+                taskId={taskId}
+                onClickDelete={handleDeleteClick}
+              />
+              <ButtonUpdateAtom
+                taskId={taskId}
+                onClickUpdate={handleUpdateClick}
+              />
             </div>
-          ) : null}
-
+          </>
+        ) : null}
       </div>
       <ConfirmDeleteModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
+        isModalDeleteOpen={isModalDeleteOpenState}
+        onClose={handleCloseModalDelete}
         onConfirm={handleDelete}
+      />
+      <ConfirmUpdateModal
+        isModalUpdateOpen={isModalUpdateOpenState}
+        onClose={handleCloseModalUpdate}
+        taskId={taskId}
       />
     </>
   );

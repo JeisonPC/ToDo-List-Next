@@ -1,5 +1,5 @@
 export interface ConfirmDeleteModalProps {
-  isOpen: boolean;
+  isModalDeleteOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
 }

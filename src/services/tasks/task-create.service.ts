@@ -11,7 +11,6 @@ export async function taskCreateApi(newTask: CreateTask): Promise<Task> {
   });
   if (!response.ok) throw new Error('Error creando la tarea');
   const data = await response.json();
-  console.log("Respuesta de la API:", data);
 
   return data.createTask;
 }
