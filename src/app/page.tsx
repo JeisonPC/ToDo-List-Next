@@ -1,24 +1,22 @@
-import dynamic from "next/dynamic";
-
-const TaskOrganism = dynamic(
-  () => import("@/components/organisms/task-organism"),
-  {
-    loading: () => <p>Loading tasks...</p>,
-  }
-);
+import SlideFormOrganism from "@/components/organisms/slide-create-task-organism";
+import TaskOrganism from "@/components/organisms/task-organism";
+import { FaHandPeace } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-3xl	font-bold">¡Hola de nuevo!</h1>
+    <>
+      <div className="flex gap-2">
+        <h1 className="text-3xl	font-bold pb-8">¡Hola de nuevo!</h1>
+        <FaHandPeace className="text-3xl" />
+      </div>
       <section>
-        <h2>Mis tareas</h2>
-        <ul>
-          <li>
-            <TaskOrganism />
-          </li>
-        </ul>
+        <h2 className="pb-6 text-2xl">Mis tareas</h2>
+        <TaskOrganism />
       </section>
-    </div>
+
+      <section>
+        <SlideFormOrganism />
+      </section>
+    </>
   );
 }
