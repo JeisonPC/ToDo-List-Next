@@ -3,6 +3,8 @@ import TaskOrganism from "@/components/organisms/task-organism";
 import { FaHandPeace } from "react-icons/fa";
 
 export default function Home() {
+
+
   return (
     <>
       <div className="flex gap-2">

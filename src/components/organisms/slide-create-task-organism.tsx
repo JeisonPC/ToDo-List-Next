@@ -74,7 +74,6 @@ export default function SlideFormOrganism() {
     } finally {
       console.log("Cerrando formulario");
       setIsOpen(false);
-      fetchTasks();
     }
   };
 
