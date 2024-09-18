@@ -28,6 +28,7 @@ export default function TaskOrganism() {
     return <LoadingSkeleton />;
   }
 
+
   console.log("tasks", tasks);
 
   return (
@@ -53,7 +54,7 @@ export default function TaskOrganism() {
                 description={task?.description}
               />
             </div>
-            <MoreOptionsMolecule />
+            <MoreOptionsMolecule taskId={task?.id} />
           </li>
         ))}
       </ul>

@@ -5,7 +5,10 @@ import { DeleteTask } from '@/types/task';
 const prisma = new PrismaClient();
 
 export async function DELETE(req: NextRequest) {
-  const { taskId } = await req.json();
+  const url = new URL(req.url);
+  const taskIdStr = url.searchParams.get('taskId');
+
+  const taskId = parseInt(taskIdStr || '', 10);
 
   // Validamos si se proporciona un ID
   if (!taskId) {

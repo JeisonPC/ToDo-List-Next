@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { CreateTask, TaskState, UpdateTask } from "@/types/task";
 import { tasksFromApi, taskCreateApi, taskUpdateApi } from "@/services/tasks";
+import { taskDeleteApi } from "@/services/tasks/task-delete.service";
 
 export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
@@ -26,8 +27,11 @@ export const useTaskStore = create<TaskState>((set) => ({
       tasks: state.tasks.map((p) => (p.id === task.id ? task : p)),
     }));
   },
-  deleteTask: (id: number) =>
-    set((state) => ({
-      tasks: state.tasks.filter((task) => task.id !== id),
-    })),
+  deleteTask: async (taskId: number) => {
+    const task = await taskDeleteApi(taskId);
+    return set((state) => ({
+      ...state,
+      tasks: state.tasks.filter((p) => p.id !== task.id),
+    }));
+  }
 }));

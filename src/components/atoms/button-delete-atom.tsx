@@ -1,7 +1,10 @@
-import React from 'react'
+import { ButtonDeleteAtomProps } from "@/types/atoms/button-delete-atom";
+import { MdDeleteOutline } from "react-icons/md";
 
-export default function ButtonDeleteAtom() {
+export default function ButtonDeleteAtom({ onClickDelete} : ButtonDeleteAtomProps) {
   return (
-    <div>button-delete-atom</div>
-  )
+    <button onClick={onClickDelete} className="text-2xl text-red-400">
+      <MdDeleteOutline />
+    </button>
+  );
 }
