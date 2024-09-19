@@ -37,7 +37,7 @@ export default function TaskOrganism() {
       {isLoading ? (
         <LoadingSkeleton />
       ) : (
-        <ul className="gap-4 flex flex-col">
+        <ul className="gap-4 flex flex-col md:grid md:grid-cols-3 md:gap-6">
           {tasks?.map((task) => (
             <li
               key={task?.id}

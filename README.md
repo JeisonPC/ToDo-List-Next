@@ -4,7 +4,7 @@ Este es un proyecto de gestión de tareas construido con **Next.js 14**, **TypeS
 
 ## Características
 
-- **Gestión de tareas**: Crear, actualizar y eliminar tareas.
+- **Gestión de tareas**: Listar, Crear, actualizar y eliminar tareas.
 - **Despliegue del formulario**: Formularios dinámicos con efectos de animación (deslizamiento desde la parte inferior).
 - **Store global con Zustand**: Manejo del estado global para la gestión de tareas.
 - **Pruebas unitarias**: Cobertura de pruebas para componentes y funciones clave.
@@ -77,9 +77,37 @@ El proyecto implementa prácticas de seguridad como:
 
 ## API Endpoints
 
+### Obtener todas las tareas
+
+- **GET** `/api/tasks`
+
+Este endpoint devuelve todas las tareas almacenadas en la base de datos.
+
+**Ejemplo de respuesta**:
+
+```json
+{
+  "message": "Estas son todas las tareas:",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Tarea 1",
+      "description": "Descripción de la tarea 1",
+      "status": "PENDING"
+    },
+    {
+      "id": 2,
+      "title": "Tarea 2",
+      "description": "Descripción de la tarea 2",
+      "status": "IN_PROGRESS"
+    }
+  ]
+}
+```
+
 ### Crear Tarea
 
-- **POST** `/api/tasks`
+- **POST** `/api/tasks/create-task`
 
   Crea una nueva tarea. Todos los campos son requeridos.
 
@@ -95,7 +123,7 @@ El proyecto implementa prácticas de seguridad como:
 
 ### Actualizar Tarea
 
-- **PUT** `/api/tasks`
+- **PUT** `/api/tasks/update-task`
 
   Actualiza una tarea existente.
 
@@ -107,6 +135,26 @@ El proyecto implementa prácticas de seguridad como:
     "title": "Tarea Actualizada",
     "description": "Nueva descripción",
     "status": "COMPLETED"
+  }
+  ```
+
+  ### Eliminar Tarea
+
+- **DELETE** `/api/tasks/delete-task`
+
+  Eliminar una tarea existente.
+
+  **Ejemplo de respuesta**:
+
+  ```json
+  {
+    "message": "Tarea eliminada correctamente:",
+    "deletedTask": {
+      "id": 1,
+      "title": "Tarea eliminada",
+      "description": "Descripción de la tarea",
+      "status": "COMPLETED"
+    }
   }
   ```
 
