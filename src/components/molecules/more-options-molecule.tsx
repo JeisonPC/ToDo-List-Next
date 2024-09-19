@@ -18,7 +18,7 @@ export default function MoreOptionsMolecule({
   const [isModalDeleteOpenState, setIsModalDeleteOpenState] = useState(false);
   const [isModalUpdateOpenState, setIsModalUpdateOpenState] = useState(false);
 
-  const deleteTaskInMoreOptions = useTaskStore((state) => state.deleteTask);
+  const { deleteTask } = useTaskStore();
 
   const handleDeleteClick = () => {
     setIsModalDeleteOpenState(true);
@@ -26,7 +26,7 @@ export default function MoreOptionsMolecule({
 
   const handleDelete = async () => {
     try {
-      deleteTaskInMoreOptions(taskId);
+      deleteTask(taskId);
     } catch (error) {
       console.error("Error al eliminar la tarea:", error);
     }

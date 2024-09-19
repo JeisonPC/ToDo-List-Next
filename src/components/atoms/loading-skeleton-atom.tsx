@@ -1,5 +1,9 @@
-import { BulletList } from 'react-content-loader';
+import { BulletList } from "react-content-loader";
 
 export default function LoadingSkeletonAtom() {
-  return <BulletList />;
+  return (
+    <div data-testid="loading-skeleton">
+      <BulletList />;
+    </div>
+  );
 }

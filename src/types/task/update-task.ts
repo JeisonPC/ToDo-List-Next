@@ -1,2 +1,2 @@
 import { Task } from './task';
-export interface UpdateTask extends Partial<Task> {}
+export interface UpdateTaskType extends Partial<Task> {}

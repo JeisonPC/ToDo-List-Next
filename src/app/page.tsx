@@ -1,4 +1,4 @@
-import SlideFormOrganism from "@/components/organisms/slide-create-task-organism";
+import SlideCreateTaskOrganism from "@/components/organisms/slide-create-task-organism";
 import TaskOrganism from "@/components/organisms/task-organism";
 import { FaHandPeace } from "react-icons/fa";
 
@@ -17,7 +17,7 @@ export default function Home() {
       </section>
 
       <section>
-        <SlideFormOrganism />
+        <SlideCreateTaskOrganism />
       </section>
     </>
   );

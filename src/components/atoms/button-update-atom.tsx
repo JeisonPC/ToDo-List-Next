@@ -3,7 +3,7 @@ import { CiEdit } from "react-icons/ci";
 
 export default function ButtonUpdateAtom({ onClickUpdate} : ButtonUpdateAtomProps) {
   return (
-    <button onClick={onClickUpdate}>
+    <button data-testid="update-button" onClick={onClickUpdate}>
       <CiEdit className="text-2xl" />
     </button>
   );
