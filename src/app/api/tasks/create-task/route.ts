@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import { CreateTaskType } from '@/types/task';
+import validator from 'validator';
 
 
 const prisma = new PrismaClient();
@@ -15,10 +16,23 @@ export async function POST(req: NextRequest) {
     );
   }
 
+  const sanitizedTitle = validator.escape(title.trim());
+  const sanitizedDescription = validator.escape(description.trim());
+  const sanitizedStatus = status.toUpperCase();
+
+  // Validar que el estado sea uno de los valores permitidos
+  const validStatuses = ['COMPLETED', 'PENDING', 'IN_PROGRESS'];
+  if (!validStatuses.includes(sanitizedStatus)) {
+    return NextResponse.json(
+      { error: "Estado inválido." },
+      { status: 400 }
+    );
+  }
+
   const taskData: CreateTaskType = {
-    title: title,
-    description: description,
-    status: status.toUpperCase(),
+    title: sanitizedTitle,
+    description: sanitizedDescription,
+    status: sanitizedStatus,
   };
 
   try {

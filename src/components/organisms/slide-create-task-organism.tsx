@@ -1,38 +1,28 @@
 "use client";
-import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import ButtonCreateAtom from "../atoms/button-create-atom";
 import { Option } from "@/types/atoms/select-form-atom";
 import SelectGroupMolecule from "../molecules/select-group-molecule";
 import InputGroupMolecule from "../molecules/input-group-molecule";
 import { useTaskStore } from "@/stores/tasks/tasks.store";
 import { CreateTaskType, TaskStatus } from "@/types/task";
+import { useFormValidation } from "@/hooks/use-form-validation";
 
 export default function SlideCreateTaskOrganism() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const [status, setStatus] = useState<TaskStatus>(TaskStatus.PENDING);
-
   const { fetchTasks } = useTaskStore();
-
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const { createTask } = useTaskStore();
+
+  const { values, errors, validate, handleChange } = useFormValidation({
+    title: "",
+    description: "",
+    status: TaskStatus.PENDING,
+  });
 
   useEffect(() => {
     fetchTasks();
   }, [fetchTasks]);
-
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setStatus(event.target.value as TaskStatus);
-  };
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
 
   const toggleForm = () => {
     setIsOpen(!isOpen);
@@ -46,16 +36,13 @@ export default function SlideCreateTaskOrganism() {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (!validate()) return;
 
     const newTask: CreateTaskType = {
-      title,
-      description,
-      status,
+      title: values.title,
+      description: values.description,
+      status: values.status as TaskStatus,
     };
-
-    if (!newTask.title || !newTask.description || !newTask.status) {
-      throw new Error("Todos los campos son requeridos");
-    }
 
     try {
       // Crea la tarea llamando al store
@@ -81,27 +68,36 @@ export default function SlideCreateTaskOrganism() {
             <InputGroupMolecule
               label="Título"
               htmlFor="title"
+              name="title"
               idInput="title"
               type="text"
-              onChange={handleTitleChange}
+              value={values.title}
+              onChange={handleChange}
             />
+
+            {errors.title && <p className="text-red-500">{errors.title}</p>}
 
             <InputGroupMolecule
               label="Descripción"
               htmlFor="description"
               idInput="description"
               type="text"
-              onChange={handleDescriptionChange}
+              onChange={handleChange}
+              name="description"
+              value={values.description}
             />
+            {errors.description && <p className="text-red-500">{errors.description}</p>}
 
             <SelectGroupMolecule
               label="Estado"
               htmlFor="status"
               idSelect="status"
-              status={status}
-              handleSelectChange={handleSelectChange}
+              value={values.status}
+              name="status"
+              handleSelectChange={handleChange}
               options={options}
             />
+            {errors.status && <p className="text-red-500">{errors.status}</p>}
 
             <div className="pt-16">
               <button
@@ -115,7 +111,7 @@ export default function SlideCreateTaskOrganism() {
         </div>
       </div>
       <ButtonCreateAtom
-        className="fixed bottom-4 right-4"
+        className={`fixed transition-transform bottom-4 right-4 ${isOpen ? "rotate-45" : ""}`}
         onClick={toggleForm}
       />
     </>
