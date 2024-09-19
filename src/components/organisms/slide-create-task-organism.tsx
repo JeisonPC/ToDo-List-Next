@@ -111,7 +111,7 @@ export default function SlideCreateTaskOrganism() {
         </div>
       </div>
       <ButtonCreateAtom
-        className="fixed bottom-4 right-4"
+        className={`fixed transition-transform bottom-4 right-4 ${isOpen ? "rotate-45" : ""}`}
         onClick={toggleForm}
       />
     </>

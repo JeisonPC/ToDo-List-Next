@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { UpdateTask } from "@/types/task";
+import { UpdateTaskType } from "@/types/task";
+import validator from "validator";
 
 const prisma = new PrismaClient();
 
@@ -17,16 +18,31 @@ export async function PUT(req: NextRequest) {
     );
   }
 
-  const updateTaskData: UpdateTask = {
-    title: title,
-    description: description,
-    status: status.toUpperCase(),
+  const sanitizedTitle = validator.escape(title.trim());
+  const sanitizedDescription = validator.escape(description.trim());
+  const sanitizedStatus = status.trim().toUpperCase();
+
+  const validStatuses = ["COMPLETED", "PENDING", "IN_PROGRESS"];
+  if (!validStatuses.includes(sanitizedStatus)) {
+    return NextResponse.json(
+      {
+        error:
+          "Estado inválido. Debe ser 'PENDING', 'IN_PROGRESS' o 'COMPLETED'.",
+      },
+      { status: 400 }
+    );
+  }
+
+  const updateTaskData: UpdateTaskType = {
+    title: sanitizedTitle,
+    description: sanitizedDescription,
+    status: sanitizedStatus,
   };
 
   try {
     const updatedTask = await prisma.task.update({
       where: { id: taskId },
-      data: updateTaskData
+      data: updateTaskData,
     });
 
     return NextResponse.json(
