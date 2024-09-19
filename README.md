@@ -24,37 +24,37 @@ Este es un proyecto de gestión de tareas construido con **Next.js 14**, **TypeS
 
 1. Clona el repositorio:
 
-   \`\`\`bash
+   ```bash
    git clone https://github.com/tu-usuario/task-management-app.git
-   \`\`\`
+   ```
 
 2. Instala las dependencias:
 
-   \`\`\`bash
+   ```bash
    cd task-management-app
    npm install
-   \`\`\`
+   ```
 
 3. Configura la base de datos en **Prisma**:
 
    - Crea un archivo `.env` basado en `.env.example`.
    - Añade la URL de tu base de datos.
 
-   \`\`\`env
+   ```env
    DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
-   \`\`\`
+   ```
 
 4. Ejecuta las migraciones de Prisma:
 
-   \`\`\`bash
+   ```bash
    npx prisma migrate dev
-   \`\`\`
+   ```
 
 5. Inicia el servidor de desarrollo:
 
-   \`\`\`bash
+   ```bash
    npm run dev
-   \`\`\`
+   ```
 
    La aplicación estará disponible en `http://localhost:3000`.
 
@@ -62,9 +62,9 @@ Este es un proyecto de gestión de tareas construido con **Next.js 14**, **TypeS
 
 Para ejecutar las pruebas unitarias, utiliza el siguiente comando:
 
-\`\`\`bash
+```bash
 npm run test
-\`\`\`
+```
 
 Esto ejecutará las pruebas con Jest y React Testing Library, incluidas pruebas de componentes y funciones del store.
 
@@ -81,18 +81,18 @@ El proyecto implementa prácticas de seguridad como:
 ### Crear Tarea
 
 - **POST** `/api/tasks`
-  
+
   Crea una nueva tarea. Todos los campos son requeridos.
 
   **Cuerpo de la solicitud**:
 
-  \`\`\`json
+  ```json
   {
     "title": "Mi Tarea",
     "description": "Descripción de la tarea",
     "status": "PENDING"
   }
-  \`\`\`
+  ```
 
 ### Actualizar Tarea
 
@@ -102,7 +102,7 @@ El proyecto implementa prácticas de seguridad como:
 
   **Cuerpo de la solicitud**:
 
-  \`\`\`json
+  ```json
   {
     "taskId": 1,
     "title": "Tarea Actualizada",
