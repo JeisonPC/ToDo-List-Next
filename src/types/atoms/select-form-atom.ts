@@ -4,8 +4,9 @@ export interface Option {
 }
 
 export interface SelectFormAtomProps {
-  status: string;
   idSelect: string;
+  name: string;
+  value: string;
   options: Option[];
   handleSelectChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
 }

@@ -1,10 +1,10 @@
 import { ConfirmDeUpdateModalProps } from "@/types/molecules/confirm-update-modal-molecule";
 import InputGroupMolecule from "./input-group-molecule";
-import { ChangeEvent, useState } from "react";
 import SelectGroupMolecule from "./select-group-molecule";
 import { useTaskStore } from "@/stores/tasks/tasks.store";
 import { TaskStatus, UpdateTaskType } from "@/types/task";
 import { Option } from "@/types/atoms/select-form-atom";
+import { useFormValidation } from "@/hooks/use-form-validation";
 
 export default function ConfirmUpdateModal({
   isModalUpdateOpen,
@@ -12,24 +12,13 @@ export default function ConfirmUpdateModal({
   taskId,
 }: ConfirmDeUpdateModalProps) {
 
+  const { values, errors, validate, handleChange } = useFormValidation({
+    title: "",
+    description: "",
+    status: TaskStatus.PENDING,
+  });
 
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState<TaskStatus>(TaskStatus.PENDING);
-
-  const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
-
-  const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setDescription(event.target.value);
-  };
-
-  const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
-    setStatus(event.target.value as TaskStatus);
-  };
-
-  const {updateTask} = useTaskStore();
+  const { updateTask } = useTaskStore();
 
   const options: Option[] = [
     { value: "COMPLETED", label: "Completado" },
@@ -38,16 +27,20 @@ export default function ConfirmUpdateModal({
   ];
 
   const onConfirmDelete = () => {
+
+    if (!validate()) return;
     const updateTaskData: UpdateTaskType = {
-      title,
-      description,
-      status,
+      title: values.title,
+      description: values.description,
+      status: values.status as TaskStatus,
     };
 
     try {
       updateTask(taskId, updateTaskData);
     } catch (error) {
       console.error("Error al actualizar la tarea:", error);
+    } finally {
+      onClose();
     }
   };
 
@@ -62,28 +55,36 @@ export default function ConfirmUpdateModal({
         </p>
         <InputGroupMolecule
           label="Título"
-          type="text"
-          onChange={handleTitleChange}
-          idInput="title"
           htmlFor="title"
+          name="title"
+          idInput="title"
+          type="text"
+          value={values.title}
+          onChange={handleChange}
         />
+        {errors.title && <p className="text-red-500">{errors.title}</p>}
 
         <InputGroupMolecule
           label="Descripción"
-          type="text"
-          onChange={handleDescriptionChange}
-          idInput="description"
           htmlFor="description"
+          idInput="description"
+          type="text"
+          onChange={handleChange}
+          name="description"
+          value={values.description}
         />
+        {errors.description && <p className="text-red-500">{errors.description}</p>}
 
         <SelectGroupMolecule
           label="Estado"
-          status={status}
-          handleSelectChange={handleSelectChange}
-          options={options}
-          idSelect="status"
           htmlFor="status"
+          idSelect="status"
+          value={values.status}
+          name="status"
+          handleSelectChange={handleChange}
+          options={options}
         />
+        {errors.status && <p className="text-red-500">{errors.status}</p>}
         <div className="mt-4 flex justify-end space-x-4">
           <button
             className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
@@ -95,7 +96,6 @@ export default function ConfirmUpdateModal({
             className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600"
             onClick={() => {
               onConfirmDelete();
-              onClose();
             }}
           >
             Editar
