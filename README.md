@@ -1,4 +1,3 @@
-
 # Task Management App
 
 Este es un proyecto de gestión de tareas construido con **Next.js 14**, **TypeScript**, **Prisma**, y **Zustand**. El proyecto sigue la arquitectura de **Atomic Design** y se implementan pruebas unitarias con **Jest** y **React Testing Library**.
@@ -109,7 +108,7 @@ El proyecto implementa prácticas de seguridad como:
     "description": "Nueva descripción",
     "status": "COMPLETED"
   }
-  \`\`\`
+  ```
 
 ## Prácticas Recomendadas
 
