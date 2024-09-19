@@ -1,36 +1,122 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Getting Started
+# Task Management App
 
-First, run the development server:
+Este es un proyecto de gestión de tareas construido con **Next.js 14**, **TypeScript**, **Prisma**, y **Zustand**. El proyecto sigue la arquitectura de **Atomic Design** y se implementan pruebas unitarias con **Jest** y **React Testing Library**.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Características
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- **Gestión de tareas**: Crear, actualizar y eliminar tareas.
+- **Despliegue del formulario**: Formularios dinámicos con efectos de animación (deslizamiento desde la parte inferior).
+- **Store global con Zustand**: Manejo del estado global para la gestión de tareas.
+- **Pruebas unitarias**: Cobertura de pruebas para componentes y funciones clave.
+- **Seguridad**: Sanitización de entradas y validaciones en el backend para prevenir ataques como **XSS**.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tecnologías Utilizadas
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 14**: Framework React para aplicaciones de servidor y cliente.
+- **TypeScript**: Tipado estático para mayor seguridad y robustez.
+- **Prisma**: ORM para la manipulación de la base de datos.
+- **Zustand**: Manejo del estado global de la aplicación.
+- **Tailwind CSS**: Framework de estilos CSS para diseño rápido y responsivo.
+- **Jest** y **React Testing Library**: Pruebas unitarias de componentes React.
 
-## Learn More
+## Instalación
 
-To learn more about Next.js, take a look at the following resources:
+1. Clona el repositorio:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   \`\`\`bash
+   git clone https://github.com/tu-usuario/task-management-app.git
+   \`\`\`
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Instala las dependencias:
 
-## Deploy on Vercel
+   \`\`\`bash
+   cd task-management-app
+   npm install
+   \`\`\`
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Configura la base de datos en **Prisma**:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   - Crea un archivo `.env` basado en `.env.example`.
+   - Añade la URL de tu base de datos.
+
+   \`\`\`env
+   DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
+   \`\`\`
+
+4. Ejecuta las migraciones de Prisma:
+
+   \`\`\`bash
+   npx prisma migrate dev
+   \`\`\`
+
+5. Inicia el servidor de desarrollo:
+
+   \`\`\`bash
+   npm run dev
+   \`\`\`
+
+   La aplicación estará disponible en `http://localhost:3000`.
+
+## Pruebas
+
+Para ejecutar las pruebas unitarias, utiliza el siguiente comando:
+
+\`\`\`bash
+npm run test
+\`\`\`
+
+Esto ejecutará las pruebas con Jest y React Testing Library, incluidas pruebas de componentes y funciones del store.
+
+## Seguridad
+
+El proyecto implementa prácticas de seguridad como:
+
+- **Sanitización de entradas**: Usamos la librería `validator` en el backend para sanitizar las entradas del usuario antes de almacenarlas en la base de datos, evitando ataques de **XSS**.
+- **Validaciones estrictas**: Se asegura que los datos como el estado de una tarea (`status`) sean válidos antes de ser procesados.
+- **Protección de cabeceras HTTP**: Se recomienda implementar **Helmet** para una mejor seguridad en las cabeceras.
+
+## API Endpoints
+
+### Crear Tarea
+
+- **POST** `/api/tasks`
+  
+  Crea una nueva tarea. Todos los campos son requeridos.
+
+  **Cuerpo de la solicitud**:
+
+  \`\`\`json
+  {
+    "title": "Mi Tarea",
+    "description": "Descripción de la tarea",
+    "status": "PENDING"
+  }
+  \`\`\`
+
+### Actualizar Tarea
+
+- **PUT** `/api/tasks`
+
+  Actualiza una tarea existente.
+
+  **Cuerpo de la solicitud**:
+
+  \`\`\`json
+  {
+    "taskId": 1,
+    "title": "Tarea Actualizada",
+    "description": "Nueva descripción",
+    "status": "COMPLETED"
+  }
+  \`\`\`
+
+## Prácticas Recomendadas
+
+1. **Sanitización y validación** de datos tanto en el frontend como en el backend para evitar ataques como **XSS** y asegurar la integridad de los datos.
+2. **Atomic Design**: Arquitectura utilizada para estructurar los componentes de la UI en átomos, moléculas y organismos.
+3. **Separación de responsabilidades**: Código bien estructurado con separación clara entre lógica de estado (Zustand), diseño (Tailwind) y datos (Prisma).
+
+---
+
+¡Gracias por revisar este proyecto! Si tienes alguna duda o sugerencia, no dudes en abrir una issue o hacer un pull request.
