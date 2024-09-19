@@ -3,16 +3,15 @@ import InputGroupMolecule from "./input-group-molecule";
 import { ChangeEvent, useState } from "react";
 import SelectGroupMolecule from "./select-group-molecule";
 import { useTaskStore } from "@/stores/tasks/tasks.store";
-import { TaskStatus, UpdateTask } from "@/types/task";
+import { TaskStatus, UpdateTaskType } from "@/types/task";
 import { Option } from "@/types/atoms/select-form-atom";
 
 export default function ConfirmUpdateModal({
   isModalUpdateOpen,
   onClose,
-  taskId
+  taskId,
 }: ConfirmDeUpdateModalProps) {
 
-  const updateTaskInModal = useTaskStore((state) => state.updateTask)
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -20,15 +19,17 @@ export default function ConfirmUpdateModal({
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-  }
+  };
 
   const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
-  }
+  };
 
   const handleSelectChange = (event: ChangeEvent<HTMLSelectElement>) => {
     setStatus(event.target.value as TaskStatus);
   };
+
+  const {updateTask} = useTaskStore();
 
   const options: Option[] = [
     { value: "COMPLETED", label: "Completado" },
@@ -36,20 +37,17 @@ export default function ConfirmUpdateModal({
     { value: "IN_PROGRESS", label: "En progreso" },
   ];
 
-
   const onConfirmDelete = () => {
-
-    const updateTask: UpdateTask = {
+    const updateTaskData: UpdateTaskType = {
       title,
       description,
       status,
     };
 
-
     try {
-      updateTaskInModal(taskId, updateTask);
+      updateTask(taskId, updateTaskData);
     } catch (error) {
-      console.error("Error al crear la tarea:", error);
+      console.error("Error al actualizar la tarea:", error);
     }
   };
 
@@ -62,24 +60,30 @@ export default function ConfirmUpdateModal({
         <p className="mt-2">
           Actualiza los datos que deseas editar de tu tarea.
         </p>
-          <InputGroupMolecule
-            label="Título"
-            type="text"
-            onChange={handleTitleChange}
-          />
+        <InputGroupMolecule
+          label="Título"
+          type="text"
+          onChange={handleTitleChange}
+          idInput="title"
+          htmlFor="title"
+        />
 
-          <InputGroupMolecule
-            label="Descripción"
-            type="text"
-            onChange={handleDescriptionChange}
-          />
+        <InputGroupMolecule
+          label="Descripción"
+          type="text"
+          onChange={handleDescriptionChange}
+          idInput="description"
+          htmlFor="description"
+        />
 
-          <SelectGroupMolecule
-            label="Estado"
-            status={status}
-            handleSelectChange={handleSelectChange}
-            options={options}
-          />
+        <SelectGroupMolecule
+          label="Estado"
+          status={status}
+          handleSelectChange={handleSelectChange}
+          options={options}
+          idSelect="status"
+          htmlFor="status"
+        />
         <div className="mt-4 flex justify-end space-x-4">
           <button
             className="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"

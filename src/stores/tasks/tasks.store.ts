@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { CreateTask, TaskState, UpdateTask } from "@/types/task";
+import { CreateTaskType, TaskState, UpdateTaskType } from "@/types/task";
 import { tasksFromApi, taskCreateApi, taskUpdateApi, taskDeleteApi } from "@/services/tasks";
 export const useTaskStore = create<TaskState>((set) => ({
   tasks: [],
@@ -11,14 +11,14 @@ export const useTaskStore = create<TaskState>((set) => ({
       console.error("Error al listar las tarea:", error);
     }
   },
-  createTask: async (newTask: CreateTask) => {
+  createTask: async (newTask: CreateTaskType) => {
     const task = await taskCreateApi(newTask);
     return set((state) => ({
       ...state,
       tasks: [...state.tasks, task],
     }));
   },
-  updateTask: async (taskId: number, updatedTask: UpdateTask) => {
+  updateTask: async (taskId: number, updatedTask: UpdateTaskType) => {
     const task = await taskUpdateApi(taskId, updatedTask);
     return set((state) => ({
       ...state,

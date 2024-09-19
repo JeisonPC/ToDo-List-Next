@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { CreateTask } from '@/types/task';
+import { CreateTaskType } from '@/types/task';
 
 
 const prisma = new PrismaClient();
@@ -15,14 +15,14 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  const taskData: CreateTask = {
+  const taskData: CreateTaskType = {
     title: title,
     description: description,
     status: status.toUpperCase(),
   };
 
   try {
-    const createTask: CreateTask = await prisma.task.create({ data: taskData });
+    const createTask: CreateTaskType = await prisma.task.create({ data: taskData });
 
     return NextResponse.json(
       { message: `Tarea creada correctamente:`, createTask },

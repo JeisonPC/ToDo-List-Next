@@ -1,10 +1,10 @@
 import { LabelFormAtomProps } from "@/types/atoms/label-form-atom";
 import React from "react";
 
-export default function LabelFormAtom({ label }: LabelFormAtomProps) {
+export default function LabelFormAtom({ htmlFor, label }: LabelFormAtomProps) {
   return (
     <div>
-      <label>{label}</label>
+      <label htmlFor={htmlFor}>{label}</label>
     </div>
   );
 }

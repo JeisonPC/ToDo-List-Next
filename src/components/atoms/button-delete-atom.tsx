@@ -3,7 +3,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 export default function ButtonDeleteAtom({ onClickDelete} : ButtonDeleteAtomProps) {
   return (
-    <button onClick={onClickDelete} className="text-2xl text-red-400">
+    <button data-testid="delete-button" onClick={onClickDelete} className="text-2xl text-red-400">
       <MdDeleteOutline />
     </button>
   );

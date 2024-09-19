@@ -5,20 +5,18 @@ import { Option } from "@/types/atoms/select-form-atom";
 import SelectGroupMolecule from "../molecules/select-group-molecule";
 import InputGroupMolecule from "../molecules/input-group-molecule";
 import { useTaskStore } from "@/stores/tasks/tasks.store";
-import { CreateTask, TaskStatus } from "@/types/task";
+import { CreateTaskType, TaskStatus } from "@/types/task";
 
-export default function SlideFormOrganism() {
+export default function SlideCreateTaskOrganism() {
   const [isOpen, setIsOpen] = useState(false);
 
   const [status, setStatus] = useState<TaskStatus>(TaskStatus.PENDING);
 
-
+  const { fetchTasks } = useTaskStore();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const createTask = useTaskStore((state) => state.createTask);
-
-  const fetchTasks = useTaskStore((state) => state.fetchTasks);
+  const { createTask } = useTaskStore();
 
   useEffect(() => {
     fetchTasks();
@@ -30,11 +28,11 @@ export default function SlideFormOrganism() {
 
   const handleTitleChange = (event: ChangeEvent<HTMLInputElement>) => {
     setTitle(event.target.value);
-  }
+  };
 
   const handleDescriptionChange = (event: ChangeEvent<HTMLInputElement>) => {
     setDescription(event.target.value);
-  }
+  };
 
   const toggleForm = () => {
     setIsOpen(!isOpen);
@@ -46,17 +44,14 @@ export default function SlideFormOrganism() {
     { value: "IN_PROGRESS", label: "En progreso" },
   ];
 
-
-
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const newTask: CreateTask = {
+    const newTask: CreateTaskType = {
       title,
       description,
       status,
     };
-
 
     if (!newTask.title || !newTask.description || !newTask.status) {
       throw new Error("Todos los campos son requeridos");
@@ -72,11 +67,11 @@ export default function SlideFormOrganism() {
     }
   };
 
-
   return (
     <>
       <div
-        className={`rounded-t-3xl shadow-[0_-4px_60px_-15px_rgba(0,0,0,0.3)] fixed bottom-0 right-0 w-full sm:w-[400px] bg-white transition-transform transform  ${
+        data-testid="form-container"
+        className={`rounded-t-3xl shadow-[0_-4px_60px_-15px_rgba(0,0,0,0.3)] fixed bottom-0 right-0 w-full bg-white transition-transform transform  ${
           isOpen ? "translate-y-0" : "translate-y-full"
         }`}
       >
@@ -85,18 +80,24 @@ export default function SlideFormOrganism() {
           <form onSubmit={handleSubmit}>
             <InputGroupMolecule
               label="Título"
+              htmlFor="title"
+              idInput="title"
               type="text"
               onChange={handleTitleChange}
             />
 
             <InputGroupMolecule
               label="Descripción"
+              htmlFor="description"
+              idInput="description"
               type="text"
               onChange={handleDescriptionChange}
             />
 
             <SelectGroupMolecule
               label="Estado"
+              htmlFor="status"
+              idSelect="status"
               status={status}
               handleSelectChange={handleSelectChange}
               options={options}
