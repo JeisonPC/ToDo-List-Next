@@ -1,6 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { PrismaClient } from "@prisma/client";
-import { DeleteTask } from '@/types/task';
+import { DeleteTaskType } from '@/types/task';
 
 const prisma = new PrismaClient();
 
@@ -19,7 +19,7 @@ export async function DELETE(req: NextRequest) {
   }
 
   try {
-    const deletedTask: DeleteTask = await prisma.task.delete({
+    const deletedTask: DeleteTaskType = await prisma.task.delete({
       where: { id: taskId },
     });
 

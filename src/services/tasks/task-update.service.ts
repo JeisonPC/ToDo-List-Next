@@ -1,7 +1,7 @@
 import { Task } from "@/types/task";
-import { UpdateTask } from "@/types/task/update-task";
+import { UpdateTaskType } from "@/types/task/update-task";
 
-export async function taskUpdateApi(taskId: number, updatedTask: UpdateTask): Promise<Task> {
+export async function taskUpdateApi(taskId: number, updatedTask: UpdateTaskType): Promise<Task> {
   const response = await fetch(`/api/tasks/update-task`, {
     method: 'PUT',
     headers: {
