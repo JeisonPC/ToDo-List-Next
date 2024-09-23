@@ -1,7 +1,7 @@
-import { CreateTask, Task } from '@/types/task';
+import { CreateTaskType, Task } from '@/types/task';
 
 
-export async function taskCreateApi(newTask: CreateTask): Promise<Task> {
+export async function taskCreateApi(newTask: CreateTaskType): Promise<Task> {
   const response = await fetch('/api/tasks/create-task', {
     method: 'POST',
     headers: {
